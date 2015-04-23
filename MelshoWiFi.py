@@ -86,4 +86,13 @@ label = Label(top, text="created by Mahmoud Elshobaky")
 label.pack(fill="both", expand="yes")
 
 center_window(300, 180)
-top.mainloop()
+
+
+import admin
+if admin.isUserAdmin():
+    top.mainloop()
+else:
+    admin.runAsAdmin()
+        
+
+

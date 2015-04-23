@@ -1,6 +1,4 @@
-import admin
-if not admin.isUserAdmin():
-        admin.runAsAdmin()
+
 
 import subprocess as sp
 import os, sys
