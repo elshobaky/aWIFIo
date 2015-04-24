@@ -5,6 +5,7 @@ import wifi
 
 top = Tk()
 status_text = StringVar()
+sett_text = StringVar()
 
 def get_status():
     info = wifi.show_wifi()
@@ -20,6 +21,16 @@ def get_status():
     status_text.set(s)
     return s, h, c
     
+def get_sett():
+    info = wifi.show_wifi()
+    s = "Mode : %s SSID name : %s Max number of clients : %s Authentication : %s"%(info['Mode'],info['SSID name'],info['Max number of clients'],info['Authentication'])
+    sett_text.set(s)
+    return s
+
+def refresh():
+    s,h,c = get_status()
+    status.configure(fg=c)
+    get_sett()
 
 def create():
     k = key.get()
@@ -31,6 +42,8 @@ def create():
         center_window(300, 400)
         s,h,c = get_status()
         status.configure(fg=c)
+        get_sett()
+
 
 def start():
     output, msg = wifi.start_wifi()
@@ -58,7 +71,7 @@ top.iconbitmap(default="icon.ico")
 top.title("aWIFIo")
 top.resizable(0,0)
 
-h= 180
+
 def center_window(w=300, h=200):
     # get screen width and height
     ws = top.winfo_screenwidth()
@@ -91,7 +104,7 @@ key.pack(side=RIGHT)
 create_frame = Frame(labelframe)
 create_frame.pack()
 
-create = Button(create_frame, text="Create WiFi Hotspot", command=create, bd=2)
+create = Button(create_frame, text="Create WiFi Hotspot", command=create, bd=2,fg='blue',bg='white')
 create.pack()
 
 # wifi control buttons
@@ -101,44 +114,33 @@ labelframe_2.pack(fill="both", expand="yes")
 control_frame = Frame(labelframe_2)
 control_frame.pack()
 
-start = Button(control_frame, text="Start WiFi Hotspot",command=start, bd=2)
-stop = Button(control_frame, text="Stop WiFi Hotspot",command=stop, bd=2)
+start = Button(control_frame, text="Start WiFi Hotspot",command=start, bd=2,fg='dark green',bg='white')
+stop = Button(control_frame, text="Stop WiFi Hotspot",command=stop, bd=2,fg='red',bg='white')
 start.pack(side=LEFT)
 stop.pack(side=RIGHT)
 
 # wifi status and settings
-
+refresh = Button(top,text='Refresh status and settings',fg='dark blue',bg='gray',command=refresh,bd=0)
+refresh.pack()
 # status
 
 labelframe_3 = LabelFrame(top, text="WiFi Hotspot Status")
 labelframe_3.pack(fill="both", expand="yes")
 status = Label(labelframe_3, textvariable=status_text)
-status.pack()
 s,h,c = get_status()
 status.configure(fg=c)
+status.pack()
 
-def show_sett():
-    #settings
-    info = wifi.show_wifi()
-    labelframe_4 = LabelFrame(top, text="WiFi Hotspot Settings")
-    labelframe_4.pack(fill="both", expand="yes")
-    mode = Label(labelframe_4,text='Mode : '+info['Mode'])
-    ssid_name = Label(labelframe_4,text='SSID name : '+info['SSID name'])
-    max_no = Label(labelframe_4,text='Max number of clients : '+info['Max number of clients'])
-    auth = Label(labelframe_4,text='Authentication : '+info['Authentication'])
+#settings
 
-    mode.pack()
-    ssid_name.pack()
-    max_no.pack()
-    auth.pack()
-
-
-
+labelframe_4 = LabelFrame(top, text="WiFi Hotspot Settings")
+labelframe_4.pack(fill="both", expand="yes")
+settings = Label(labelframe_4, textvariable=sett_text)
+get_sett()
+settings.pack()
 
 
 # initialize
-
-show_sett()
 center_window(300, h)
 
 #copyright
@@ -151,6 +153,7 @@ if admin.isUserAdmin():
     top.mainloop()
 else:
     admin.runAsAdmin()
-        
+
+print "rr"       
 
 
