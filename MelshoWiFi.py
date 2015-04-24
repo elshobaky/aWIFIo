@@ -55,7 +55,7 @@ def stop():
 
 
 top.iconbitmap(default="icon.ico")
-top.title("Melsho Hotspot Creator")
+top.title("aWIFIo")
 top.resizable(0,0)
 
 h= 180
