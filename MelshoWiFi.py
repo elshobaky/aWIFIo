@@ -33,16 +33,20 @@ def refresh():
     get_sett()
 
 def create():
-    k = key.get()
-    if k and len(k) < 8 :
-        tkMessageBox.showinfo("Password Error", "password must be more than 8 charachters")
+    if wifi.check_support():
+        k = key.get()
+        if k and len(k) < 8 :
+            tkMessageBox.showinfo("Password Error", "password must be more than 8 charachters")
+        else:
+            output,msg = wifi.create_new(ssid.get(),k)
+            tkMessageBox.showinfo("hotspot created",msg)
+            center_window(300, 400)
+            s,h,c = get_status()
+            status.configure(fg=c)
+            get_sett()
     else:
-        output,msg = wifi.create_new(ssid.get(),k)
-        tkMessageBox.showinfo("hotspot created",msg)
-        center_window(300, 400)
-        s,h,c = get_status()
-        status.configure(fg=c)
-        get_sett()
+        tkMessageBox.showinfo("Hotspot Not Supported", "seems like creating a wifi hotspot is not supported in your computer.these instructions might help.\n-Check if WiFi is on or not\n-open Network and Sharing Center -> change Adapter Setting -> right click on your Wifi Adapter -> Properties -> Advanced tab - > Click on Adhoc support... -> set value - Enable.")
+
 
 
 def start():
@@ -154,6 +158,6 @@ if admin.isUserAdmin():
 else:
     admin.runAsAdmin()
 
-print "rr"       
+     
 
 
