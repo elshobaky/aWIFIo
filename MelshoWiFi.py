@@ -1,21 +1,34 @@
 from Tkinter import *
 import tkMessageBox
 import tempfile
+import os
 import wifi
+from PIL import Image, ImageTk
+
 
 top = Tk()
 status_text = StringVar()
 sett_text = StringVar()
+
+def view_img():
+    novi = Toplevel()
+    canvas = Canvas(novi,width = 774, height = 410)
+    canvas.pack(expand = YES, fill = BOTH)
+    img = PhotoImage(file = 'share.gif')
+    canvas.create_image(0, 0, image = img, anchor = NW)
+    canvas.img = img
+    #novi.mainloop()
+    
 
 def get_status():
     info = wifi.show_wifi()
     stat = info['Status']
     if stat == 'Started\r':
         s = "Status : %s Number of clients : %s  BSSID : %s Radio type : %s Channel : %s"%(info['Status'],info['Number of clients'],info['BSSID'],info['Radio type'],info['Channel'])
-        h = 400
+        h = 420
         c = 'dark green'
     else:
-        h = 320
+        h = 340
         s = "Status : %s"%(info['Status'])
         c = 'red'
     status_text.set(s)
@@ -40,7 +53,7 @@ def create():
         else:
             output,msg = wifi.create_new(ssid.get(),k)
             tkMessageBox.showinfo("hotspot created",msg)
-            center_window(300, 400)
+            center_window(300, 420)
             s,h,c = get_status()
             status.configure(fg=c)
             get_sett()
@@ -53,7 +66,7 @@ def start():
     output, msg = wifi.start_wifi()
     tkMessageBox.showinfo("Hotspot started", msg)
     get_status()
-    center_window(300, 400)
+    center_window(300, 420)
     s,h,c = get_status()
     status.configure(fg=c)
     
@@ -64,7 +77,7 @@ def stop():
     tkMessageBox.showinfo("Hotspot stopped", msg)
     get_status()
     status.configure
-    center_window(300, 320)
+    center_window(300, 340)
     s,h,c = get_status()
     status.configure(fg=c)
     
@@ -111,6 +124,8 @@ create_frame.pack()
 create = Button(create_frame, text="Create WiFi Hotspot", command=create, bd=2,fg='blue',bg='white')
 create.pack()
 
+share = Button(create_frame, bg='gray',fg='dark red',bd=0 ,command=view_img, text='not working well? try this additional step!',width=300)
+share.pack()
 # wifi control buttons
 labelframe_2 = LabelFrame(top, text="Control WiFi Hotspot")
 labelframe_2.pack(fill="both", expand="yes")
