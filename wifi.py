@@ -1,7 +1,7 @@
 
 
 import subprocess as sp
-import os, sys
+import os, sys, re
 
 get_c = """
 regsvr32 hnetcfg.dll
@@ -29,6 +29,25 @@ def create_new(ssid, key):
 	output = sp.call(command)
 	start_wifi()
 	return output, "WiFi hotspot created name=%s password=%s"%(ssid,key)
+
+def show_wifi():
+	info = sp.Popen('netsh wlan show hostednetwork',shell=True,
+		            stdout=sp.PIPE,
+		            stderr=sp.PIPE)
+	out, err = info.communicate()
+	errcode = info.returncode
+	res = re.findall(r'[A-Z]*[a-z]*(?: [a-z]+)* *\: .*',out)
+	info = {}
+	for i in res :
+		key = re.findall(r'[A-Z]*[a-z]*(?: [a-z]+)*',i)[0]
+		value = i[i.find(':')+2:]
+		info[key] = value
+	return info
+
+
+#x = show_wifi()
+#print x['Number of clients']
+
 # print sp.call("regsvr32 hnetcfg.dll")
 #p = sp.Popen(["powershell.exe", 
 #             get_c], 
@@ -39,7 +58,5 @@ def create_new(ssid, key):
 #print p.wait()
 #start_wifi()
 
-def get_current():
-	info = sp.call("netsh wlan show hostednetwork")
-	print info
+
 
