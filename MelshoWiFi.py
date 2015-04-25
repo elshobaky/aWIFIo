@@ -1,7 +1,7 @@
 #############################################################
-# Authou : Mahmoud Elshobaky                                #
+# copyright (c) 2015 Mahmoud Elshobaky                      #
 # Email :Mahmoud.Elshobaky@Gmail.com                        #
-# Facebook : https://facebook.com/3m.2a.1e                  #
+# GitHub : https://github.com/elshobaky                     #
 # License : GPL v3                                          #
 #############################################################
 from Tkinter import *
