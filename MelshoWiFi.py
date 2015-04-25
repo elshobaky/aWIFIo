@@ -38,6 +38,7 @@ def get_status():
         s = "Status : %s"%(info['Status'])
         c = 'red'
     status_text.set(s)
+    center_window(300,h)
     return s, h, c
     
 def get_sett():
