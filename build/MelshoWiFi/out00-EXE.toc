@@ -1,9 +1,0 @@
-('F:\\zprojects\\soft\\aWIFIo\\build\\MelshoWiFi\\aWIFIo.exe',
- False,
- False,
- None,
- None,
- [],
- None,
- False,
- 1429962695L)
