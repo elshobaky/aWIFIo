@@ -170,7 +170,17 @@ settings.pack()
 center_window(300, h)
 
 #copyright
-copyright = Label(top, text="created by Mahmoud Elshobaky")
+import webbrowser
+def openlink():
+    webbrowser.open('http://facebook.com/3m.2a.1e', new=2)
+
+copyright = Button(top,
+    text="created by Mahmoud Elshobaky",
+    fg='#DDD',
+    bg='gray',
+    width=300,
+    bd=0,
+    command=openlink)
 copyright.pack()
 
 #make shure the app runs as adminstrator
