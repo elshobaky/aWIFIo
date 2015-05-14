@@ -43,7 +43,12 @@ def get_status():
     
 def get_sett():
     info = wifi.show_wifi()
-    s = "Mode : %s SSID name : %s Max number of clients : %s Authentication : %s"%(info['Mode'],info['SSID name'],info['Max number of clients'],info['Authentication'])
+    try :
+        s = "Mode : %s SSID name : %s Max number of clients : %s Authentication : %s"%(info['Mode'],info['SSID name'],info['Max number of clients'],info['Authentication'])
+    except KeyError:
+        s = ""
+        for i in info:
+            s+= i + " : " + info[i]+ " "
     sett_text.set(s)
     return s
 
@@ -52,11 +57,13 @@ def refresh():
     status.configure(fg=c)
     get_sett()
 
+# programming Is Fun with (( KeefCode )) 
 def create():
     if wifi.check_support():
         k = key.get()
         if k and len(k) < 8 :
-            tkMessageBox.showinfo("Password Error", "password must be more than 8 charachters")
+            tkMessageBox.showinfo("Password Error",
+                "password must be more than 8 charachters")
         else:
             output,msg = wifi.create_new(ssid.get(),k)
             tkMessageBox.showinfo("hotspot created",msg)
@@ -65,7 +72,8 @@ def create():
             status.configure(fg=c)
             get_sett()
     else:
-        tkMessageBox.showinfo("Hotspot Not Supported", "seems like creating a wifi hotspot is not supported in your computer.these instructions might help.\n-Check if WiFi is on or not\n-open Network and Sharing Center -> change Adapter Setting -> right click on your Wifi Adapter -> Properties -> Advanced tab - > Click on Adhoc support... -> set value - Enable.")
+        tkMessageBox.showinfo("Hotspot Not Supported",
+            "seems like creating a wifi hotspot is not supported in your computer.these instructions might help.\n-Check if WiFi is on or not\n-open Network and Sharing Center -> change Adapter Setting -> right click on your Wifi Adapter -> Properties -> Advanced tab - > Click on Adhoc support... -> set value - Enable.")
 
 
 
@@ -182,6 +190,12 @@ copyright = Button(top,
     bd=0,
     command=openlink)
 copyright.pack()
+
+# themes and styles
+import ttk
+style = ttk.Style()
+style.theme_use('classic')
+# themes ('winnative', 'clam', 'alt', 'default', 'classic')
 
 #make shure the app runs as adminstrator
 import admin
